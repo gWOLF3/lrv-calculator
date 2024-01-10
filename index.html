@@ -76,6 +76,19 @@
             font-weight: 700;
         }
 
+        .dropdown-container {
+            background-color: #e7f3fe;
+            border-left: 6px solid #2196F3;
+            margin-top: 20px;
+            padding: 10px;
+            font-size: 14px;
+            cursor: pointer;
+        } 
+
+         .dropdown-content {
+            display: none; /* Start off hidden */
+        }
+
         .info {
             background-color: #e7f3fe;
             border-left: 6px solid #2196F3;
@@ -88,7 +101,7 @@
             margin-top: 20px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
         }
 
         #sampleText {
@@ -108,28 +121,27 @@
             text-overflow: ellipsis; /* Adds an ellipsis for overflowed text */
         }
 
- .sponsor-container {
+      .sponsor-container {
             max-width: 400px;
             margin: 20px auto;
             padding: 20px;
             background-color: #fff;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
         .sponsor-logo {
-            width: 150px; /* Adjust size as needed */
+            width: 150px; /* Adjust the width as needed */
             height: auto;
             margin-left: 10px;
         }
 
         .sponsor-text {
             margin: 0;
-            font-size: 16px; /* Adjust size as needed */
+            font-size: 16px;
             font-style: italic;
             color: #555; /* Dark grey color */
         }
@@ -158,13 +170,21 @@
             <input type="text" id="sampleText" placeholder="Enter sample text" onchange="updateSampleDisplay()">
             <div class="sample-display" id="sampleDisplay">Sample Text</div>
         </div>
-        <div class="info">
+        <div class="dropdown-container" onclick="toggleDropdown('whatIsLRVContent')">
             <strong>What is LRV?</strong>
+        </div>
+        <div class="dropdown-content" id="whatIsLRVContent">
             <p>Light Reflectance Value (LRV) measures the percentage of light a color reflects. It's important in design for accessibility, as it helps determine the contrast between different surfaces, aiding visibility for people with visual impairments. High contrast is essential for readability and ease of navigation in various environments.</p>
+        </div>
+
+        <!-- Dropdown for "How is LRV Calculated" -->
+        <div class="dropdown-container" onclick="toggleDropdown('howIsLRVCalculatedContent')">
             <strong>How is LRV Calculated?</strong>
-            <p>The formula used for LRV calculation in this tool is a simplified version: LRV = (0.2126 * R) + (0.7152 * G) + (0.0722 * B), where R, G, B are the red, green, and blue color values of the color.</p>
         </div>
+        <div class="dropdown-content" id="howIsLRVCalculatedContent">
+            <p>The LRV for a color is calculated using a formula that factors in the red, green, and blue (RGB) values of the color, adjusted for human vision. It's a measure of the percentage of visible light reflected from a surface.</p>
         </div>
+      </div>
     </div>
  <!-- Sponsor Container -->
     <div class="sponsor-container">
@@ -175,6 +195,14 @@
     </div>
 
     <script>
+       function toggleDropdown(contentId) {
+            var content = document.getElementById(contentId);
+            if (content.style.display === 'block') {
+                content.style.display = 'none';
+            } else {
+                content.style.display = 'block';
+            }
+        }
         function calculateContrast() {
             var color1 = document.getElementById('color1').value;
             var color2 = document.getElementById('color2').value;
