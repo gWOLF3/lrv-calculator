@@ -107,6 +107,32 @@
             white-space: nowrap; /* Keeps the text in a single line */
             text-overflow: ellipsis; /* Adds an ellipsis for overflowed text */
         }
+
+ .sponsor-container {
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .sponsor-logo {
+            width: 150px; /* Adjust size as needed */
+            height: auto;
+            margin-left: 10px;
+        }
+
+        .sponsor-text {
+            margin: 0;
+            font-size: 16px; /* Adjust size as needed */
+            font-style: italic;
+            color: #555; /* Dark grey color */
+        }
 </style>
 </head>
 <body>
@@ -140,7 +166,13 @@
         </div>
         </div>
     </div>
-
+ <!-- Sponsor Container -->
+    <div class="sponsor-container">
+        <p class="sponsor-text">Powered by:</p>
+        <a href="https://asisignage.com" target="_blank">
+            <img src="logo.png" alt="Sponsor Logo" class="sponsor-logo">
+        </a>
+    </div>
 
     <script>
         function calculateContrast() {
