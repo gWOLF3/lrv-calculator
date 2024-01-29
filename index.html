@@ -28,11 +28,17 @@
       .container {
         flex: 1;
         max-width: 90%;
-        margin: 20px 10%;
+        margin: 15px 10%;
         padding: 1.25em;
         border-radius: 10px;
         text-align: center;
       }
+      @media (max-width: 600px) {
+    .container {
+        margin: 15px 5px;
+    }
+}
+
 
       .color-display,
       .sample-container {
@@ -62,6 +68,21 @@
         margin-right: 10px;
         text-align: center;
       }
+      .color-hex, .color-swatch {
+      flex-shrink: 1; /* Allow shrinking */
+  }
+
+  @media (max-width: 600px) { /* Adjust as needed for your design */
+    .color-hex, .color-swatch {
+        margin-right: 5px; /* Smaller margin on the right */
+        max-width: 55px; /* Set a max-width */
+    }
+}
+@media (max-width: 600px) {
+    .color-hex {
+        font-size: 12px; /* Smaller font size */
+    }
+}
 
       #sampleText {
         flex-grow: 1;
@@ -81,6 +102,24 @@
         white-space: nowrap;
         text-overflow: ellipsis;
       }
+
+      .sample-container {
+    display: flex;
+    justify-content: center; /* Center align items */
+    align-items: center; /* Align items vertically */
+}
+
+#sampleText, .sample-display {
+    flex-grow: 1; /* Allow both elements to grow */
+    min-width: 0; /* Override default min-width */
+}
+
+@media (max-width: 600px) {
+    #sampleText, .sample-display {
+        font-size: 12px; /* Smaller font size */
+    }
+}
+
 
       .dropdown-container {
         background-color: #e7f3fe;
@@ -140,9 +179,15 @@
   font-size: 18px;
   color: #333;
   font-weight: 700;
+    position: absolute; /* Position it absolutely within the progress bar */
+    right: 5px; /* Set a small space from the right */
+    color: black; /* Adjust color for visibility */
+        white-space: nowrap; /* Prevent text from wrapping */
+
 }
 
 .color-lrv {
+  overflow: ;
   display: inline-block;
   width: 90px; /* Match width of swatch and hex code boxes */
   height: 40px; /* Match height of swatch and hex code boxes */
@@ -182,6 +227,7 @@
   justify-content: flex-end;
   margin-right: 10px;
   color: black; /* Text color inside the bar */
+      position: relative; /* This makes it a container for absolute positioning */
 }
 #resultLabel {
   font-weight: 550;
@@ -190,7 +236,7 @@
   background-color: #333; /* Dark grey background */
   color: white; /* White text */
   margin-top: 15px;
-  padding: 10px 20px; /* Top & Bottom, Left & Right padding */
+  padding: 5px 5px; /* Top & Bottom, Left & Right padding */
   border: solid; /* No border */
   border-color: gainsboro;
   border-radius: 5px; /* Rounded corners */
@@ -198,8 +244,8 @@
   cursor: pointer; /* Hand cursor on hover */
   transition: background-color 0.3s; /* Smooth background transition */
   position: fixed; /* Fixed position relative to the viewport */
-  top: 2%; /* Distance from the top of the viewport */
-  right: 5%; /* Distance from the right of the viewport */
+  top: 2px; /* Distance from the top of the viewport */
+  right: 10px; /* Distance from the right of the viewport */
   z-index: 1000; /* Ensure it stays on top of other elements */
 }
 
@@ -345,17 +391,25 @@
         var contrast = Math.abs(lrv1 - lrv2);
         var roundedContrast = Math.round(contrast);
 
-        // Update the progress bar
-        var progressBarFill = document.getElementById("progressBarFill");
-        progressBarFill.style.width = roundedContrast + "%";
+           var progressBarFill = document.getElementById("progressBarFill");
+    var resultText = document.getElementById("result");
+
+    progressBarFill.style.width = roundedContrast + "%";
+
+    // Calculate label position
+    if (progressBarFill.offsetWidth < resultText.offsetWidth + 10) { // Adjust the 10px threshold as needed
+        resultText.style.left = (progressBarFill.offsetWidth - resultText.offsetWidth - 5) + 'px'; // Position label inside the progress bar
+    } else {
+        resultText.style.left = '5px'; // Normal position
+    } 
 
         // Optional: Change color based on contrast value
         if (roundedContrast <= 30) {
-          progressBarFill.style.backgroundColor = "rgba(217,30,24,.7)"; // Low Contrast
+          progressBarFill.style.backgroundColor = "rgba(217,30,24,.3)"; // Low Contrast
         } else if (roundedContrast <= 70) {
-          progressBarFill.style.backgroundColor = "rgba(255,165,0,.7)"; // Medium Contrast
+          progressBarFill.style.backgroundColor = "rgba(255,165,0,.3)"; // Medium Contrast
         } else {
-          progressBarFill.style.backgroundColor = "rgba(0,128,0,.7)"; // High Contrast
+          progressBarFill.style.backgroundColor = "rgba(0,128,0,.3)"; // High Contrast
         }
 
         document.getElementById("result").textContent = roundedContrast + "%";
