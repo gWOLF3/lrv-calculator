@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
     <link
       href="https://fonts.googleapis.com/css?family=Roboto"
       rel="stylesheet"
@@ -8,6 +9,13 @@
     <title>LRVCalculator.com</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
+ html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
       body {
         font-family: "Roboto", sans-serif;
         background-color: #f4f4f4;
@@ -18,12 +26,11 @@
       }
 
       .container {
+        flex: 1;
         max-width: 90%;
-        margin: 20px auto;
+        margin: 20px 10%;
         padding: 1.25em;
-        background-color: #fff;
         border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         text-align: center;
       }
 
@@ -89,7 +96,7 @@
         padding: 10px;
         text-align: left;
       }
-
+/*
       .sponsor-container {
         max-width: 400px;
         margin: 20px auto;
@@ -102,41 +109,103 @@
         align-items: center;
         flex-wrap: wrap;
       }
+*/
+.sponsor-container {
+  display: flex;
+    width: 100%;
+    background-color: #333333;
+    padding: 20px 0;
+    text-align: center;
+    justify-content: center;
+    align-content: center;
+    border-radius: 0;
+    position: relative;
+    bottom: 0;
+}
+.sponsor-text {
+  font-size: 16px;
+  color: white;
+  margin-right: 15px;
+}
 
-      .sponsor-text {
-        font-size: 16px;
-        color: white;
-        margin-bottom: 10px;
-        margin-right: 10px;
-      }
+.sponsor-logo {
+  width: 150px;
+  height: auto;
+  filter: drop-shadow(5px 5px 5px #222);
+}
 
-      .sponsor-logo {
-        width: 150px;
-        height: auto;
-        filter: drop-shadow(5px 5px 5px #222);
-      }
+#result {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-size: 18px;
+  color: #333;
+  font-weight: 700;
+}
 
-      #result {
-        margin-top: 20px;
-        margin-bottom: 20px;
-        font-size: 18px;
-        color: #333;
-        font-weight: 700;
-      }
-  
-      .color-lrv {
-    display: inline-block;
-    width: 90px; /* Match width of swatch and hex code boxes */
-    height: 40px; /* Match height of swatch and hex code boxes */
-    line-height: 40px; /* Center text vertically */
-    text-align: center; /* Center text horizontally */
-    padding: 0; /* Adjust padding if necessary */
-    margin-left: 0px; /* Space between hex code box and LRV box */
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #f4f4f4;
-    font-size: 14px;
-    font-family: 'Roboto', sans-serif;
+.color-lrv {
+  display: inline-block;
+  width: 90px; /* Match width of swatch and hex code boxes */
+  height: 40px; /* Match height of swatch and hex code boxes */
+  line-height: 40px; /* Center text vertically */
+  text-align: center; /* Center text horizontally */
+  padding: 0; /* Adjust padding if necessary */
+  margin-left: 0px; /* Space between hex code box and LRV box */
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f4f4f4;
+  font-size: 14px;
+  font-family: "Roboto", sans-serif;
+}
+#contrastResultContainer {
+  display: flex;
+  align-items: left;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+#contrastProgressBar {
+  width: 30%; /* Adjust as needed */
+  margin-left: 10px;
+  background-color: #ddd;
+  border-radius: 5px;
+  position: relative;
+}
+
+#progressBarFill {
+  height: 20px;
+  width: 0%;
+  background-color: rgba(0, 128, 0, 0.7);
+  border-radius: 5px;
+  transition: width 0.5s ease;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-right: 5px;
+  color: black; /* Text color inside the bar */
+}
+#resultLabel {
+  font-weight: 550;
+}
+.download-button {
+  background-color: #333; /* Dark grey background */
+  color: white; /* White text */
+  margin-top: 15px;
+  padding: 10px 20px; /* Top & Bottom, Left & Right padding */
+  border: solid; /* No border */
+  border-color: gainsboro;
+  border-radius: 5px; /* Rounded corners */
+  font-size: 12px; /* Font size */
+  cursor: pointer; /* Hand cursor on hover */
+  transition: background-color 0.3s; /* Smooth background transition */
+  position: fixed; /* Fixed position relative to the viewport */
+  top: 2%; /* Distance from the top of the viewport */
+  right: 5%; /* Distance from the right of the viewport */
+  z-index: 1000; /* Ensure it stays on top of other elements */
+}
+
+
+.download-button:hover {
+    background-color: #555; /* Slightly lighter grey on hover */
 }
     </style>
   </head>
@@ -160,7 +229,7 @@
           onclick="colorPicker1.click()"
         ></div>
         <input type="text" id="color1" class="color-hex" value="#FFFFFF" />
-        <span class=color-lrv id="lrv1"></span>
+        <span class="color-lrv" id="lrv1"></span>
       </div>
       <div class="color-display">
         <input
@@ -176,9 +245,21 @@
           onclick="colorPicker2.click()"
         ></div>
         <input type="text" id="color2" class="color-hex" value="#000000" />
-        <span class=color-lrv id="lrv2"></span>
+        <span class="color-lrv" id="lrv2"></span>
       </div>
-      <div id="result"></div>
+
+      <div
+        id="contrastResultContainer"
+        style="display: flex; align-items: center; justify-content: center"
+      >
+        <span id="resultLabel">LRV Contrast:</span>
+        <div id="contrastProgressBar">
+          <div id="progressBarFill">
+            <span id="result"></span>
+          </div>
+        </div>
+      </div>
+
       <div class="sample-container">
         <input
           type="text"
@@ -202,6 +283,7 @@
           for people with visual impairments. High contrast is essential for
           readability and ease of navigation in various environments.
         </p>
+        <p>A LRV Contrast Value above 70% is typically recommended. </p>
       </div>
       <div
         class="dropdown-container"
@@ -217,13 +299,16 @@
           from a surface.
         </p>
       </div>
+      <button onclick="downloadPDF()" class="download-button">Export as PDF ↗</button>    </div>
     </div>
     <div class="sponsor-container">
       <p class="sponsor-text">Powered by:</p>
       <a href="https://asisignage.com" target="_blank">
-        <img src="logo.png" alt="Sponsor Logo" class="sponsor-logo" />
+          <img src="logo.png" alt="Sponsor Logo" class="sponsor-logo" />
       </a>
-    </div>
+  </div>
+  
+  </body>
     <script>
       function toggleDropdown(contentId) {
         var content = document.getElementById(contentId);
@@ -247,9 +332,23 @@
         var color2 = document.getElementById("color2").value;
         var lrv1 = calculateLRV(color1);
         var lrv2 = calculateLRV(color2);
-        var contrast = Math.round(Math.abs(lrv1 - lrv2)); // Use rounded values
-        document.getElementById("result").innerHTML =
-          "LRV Contrast: " + contrast + "%";
+        var contrast = Math.abs(lrv1 - lrv2);
+        var roundedContrast = Math.round(contrast);
+
+        // Update the progress bar
+        var progressBarFill = document.getElementById("progressBarFill");
+        progressBarFill.style.width = roundedContrast + "%";
+
+        // Optional: Change color based on contrast value
+        if (roundedContrast <= 30) {
+          progressBarFill.style.backgroundColor = "rgba(217,30,24,.7)"; // Low Contrast
+        } else if (roundedContrast <= 70) {
+          progressBarFill.style.backgroundColor = "rgba(255,165,0,.7)"; // Medium Contrast
+        } else {
+          progressBarFill.style.backgroundColor = "rgba(0,128,0,.7)"; // High Contrast
+        }
+
+        document.getElementById("result").textContent = roundedContrast + "%";
       }
       function calculateLRV(hexColor) {
         var r = parseInt(hexColor.substring(1, 3), 16) / 255;
@@ -321,9 +420,30 @@
           " LRV: " + lrvValue + "%";
       }
 
-      initColor("colorPicker1", "swatch1", "color1");
-      initColor("colorPicker2", "swatch2", "color2");
-      calculateContrast();
-    </script>
-  </body>
+     function downloadPDF() {
+    // Get the button element
+    var downloadButton = document.querySelector('.download-button');
+
+    // Temporarily hide the button
+    downloadButton.style.display = 'none';
+
+    // Set up options for html2pdf
+    var opt = {
+        margin:       10,
+        filename:     'lrvcalculator.pdf',
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2 },
+        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+
+    // Generate PDF
+    html2pdf().from(document.body).set(opt).save().then(function() {
+        // Show the button again after PDF is generated
+        downloadButton.style.display = 'block';
+    });
+} 
+initColor("colorPicker1", "swatch1", "color1");
+initColor("colorPicker2", "swatch2", "color2");
+calculateContrast();
+</script>
 </html>
