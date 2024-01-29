@@ -180,7 +180,7 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  margin-right: 5px;
+  margin-right: 10px;
   color: black; /* Text color inside the bar */
 }
 #resultLabel {
@@ -207,14 +207,25 @@
 .download-button:hover {
     background-color: #555; /* Slightly lighter grey on hover */
 }
+.lrv-glow {
+    color: #000000; /* Base text color */
+    text-shadow: 
+        0 0 5px #FFF, /* White glow */
+        0 0 10px #FFF, /* Intense white glow */
+        0 0 15px #FF3, /* Subtle yellow glow */
+        0 0 20px #FF3, /* More intense yellow glow */
+        0 0 25px #FF3, /* Even more intense yellow glow */
+        0 0 30px #FF3, /* Maximum yellow glow */
+        0 0 35px #FF3; /* Super maximum yellow glow */
+}
     </style>
   </head>
   <body>
     <div class="container">
       <h2>
-        <span style="color: red">L</span><span style="color: green">R</span
-        ><span style="color: blue">V</span>Calculator.com
-      </h2>
+    <span class="lrv-glow">LRV</span>Calculator.com
+</h2>
+
       <div class="color-display">
         <input
           type="color"
@@ -250,7 +261,6 @@
 
       <div
         id="contrastResultContainer"
-        style="display: flex; align-items: center; justify-content: center"
       >
         <span id="resultLabel">LRV Contrast Value:</span>
         <div id="contrastProgressBar">
